@@ -32,8 +32,9 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Port;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
-import org.farng.mp3.MP3File;
+//import org.farng.mp3.MP3File;
 import javax.swing.Timer;
+import org.farng.mp3.MP3File;
 
 
 /**
@@ -47,6 +48,7 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         volumelevel.setText(String.valueOf(volumectrl.getValue())+"%");
         p.volChange(volumectrl.getValue());
+        
         ActionListener updateSeekBar = new ActionListener(){
 
             @Override
@@ -56,7 +58,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
             
         };
-        Timer timer=new Timer(500,updateSeekBar);
+        Timer timer=new Timer(200,updateSeekBar);
         timer.start();
         
         seekbar.addMouseListener(new MouseAdapter() {            
@@ -75,7 +77,7 @@ public class NewJFrame extends javax.swing.JFrame {
        p.seekTo(progressBarVal);
   }                                     
 });
-    }
+     } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,10 +99,10 @@ public class NewJFrame extends javax.swing.JFrame {
         titlename = new javax.swing.JLabel();
         icn = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 1), new java.awt.Dimension(0, 1), new java.awt.Dimension(32767, 1));
-        slideval = new javax.swing.JLabel();
         volumectrl = new javax.swing.JSlider();
         volumelevel = new javax.swing.JLabel();
         seekbar = new javax.swing.JProgressBar();
+        eqz = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,8 +145,6 @@ public class NewJFrame extends javax.swing.JFrame {
         titlename.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         titlename.setText("TITLE");
 
-        slideval.setText("slider");
-
         volumectrl.setOrientation(javax.swing.JSlider.VERTICAL);
         volumectrl.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -152,9 +152,18 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        seekbar.setMaximum(200);
+        seekbar.setVerifyInputWhenFocusTarget(false);
         seekbar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 seekbarMouseClicked(evt);
+            }
+        });
+
+        eqz.setText("Equlizer");
+        eqz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eqzActionPerformed(evt);
             }
         });
 
@@ -170,6 +179,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(paause)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(eqz)
+                .addGap(41, 41, 41)
                 .addComponent(open)
                 .addGap(116, 116, 116))
             .addGroup(layout.createSequentialGroup()
@@ -195,10 +206,6 @@ public class NewJFrame extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(volumectrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(21, 21, 21))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(222, 222, 222)
-                                .addComponent(slideval)
-                                .addGap(248, 303, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(volumelevel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,9 +234,7 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(year)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(genere)
-                                .addGap(45, 45, 45)
-                                .addComponent(slideval)))))
+                                .addComponent(genere)))))
                 .addGap(50, 50, 50)
                 .addComponent(seekbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
@@ -237,7 +242,8 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(play)
                     .addComponent(paause)
                     .addComponent(stop)
-                    .addComponent(open))
+                    .addComponent(open)
+                    .addComponent(eqz))
                 .addGap(44, 44, 44)
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -276,7 +282,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 MP3File  mpf =new MP3File(f);
                 Mp3File  mpf2 =new Mp3File(song);
                 String title = new String();
-                ID3v1 id=new ID3v1();
+                ID3v1 id=new ID3v1();             
                 id=mpf.getID3v1Tag();
                 //title=String.valueOf(mpf.getID3v1Tag());
                 titlename.setText(id.getSongTitle());
@@ -297,13 +303,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         icn.setIcon(icon);
                     }
                     }
-            } catch (UnsupportedTagException ex) {
-                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidDataException ex) {
-                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TagException ex) {
+            } catch (    UnsupportedTagException | InvalidDataException | IOException | TagException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             p.play(song);
@@ -321,6 +321,12 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_seekbarMouseClicked
 
+    private void eqzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eqzActionPerformed
+        // TODO add your handling code here:
+        EquilizerUI e =new EquilizerUI();
+                e.setVisible(true);
+    }//GEN-LAST:event_eqzActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -336,7 +342,7 @@ public class NewJFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -365,6 +371,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel album;
     private javax.swing.JLabel artist;
+    private javax.swing.JButton eqz;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel genere;
     private javax.swing.JLabel icn;
@@ -372,7 +379,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton paause;
     private javax.swing.JButton play;
     private javax.swing.JProgressBar seekbar;
-    private javax.swing.JLabel slideval;
     private javax.swing.JButton stop;
     private javax.swing.JLabel titlename;
     private javax.swing.JSlider volumectrl;

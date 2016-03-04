@@ -6,6 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -30,6 +31,8 @@
               <EmptySpace min="153" pref="10" max="-2" attributes="0"/>
               <Component id="paause" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="eqz" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Component id="open" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
           </Group>
@@ -60,11 +63,6 @@
                                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="222" max="-2" attributes="0"/>
-                              <Component id="slideval" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="248" pref="303" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
@@ -102,8 +100,6 @@
                               <Component id="year" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="genere" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                              <Component id="slideval" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -116,6 +112,7 @@
                   <Component id="paause" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="stop" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="open" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="eqz" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               <Component id="filler1" min="-2" max="-2" attributes="0"/>
@@ -203,11 +200,6 @@
         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.VerticalStrut"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="slideval">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="slider"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JSlider" name="volumectrl">
       <Properties>
         <Property name="orientation" type="int" value="1"/>
@@ -219,8 +211,20 @@
     <Component class="javax.swing.JLabel" name="volumelevel">
     </Component>
     <Component class="javax.swing.JProgressBar" name="seekbar">
+      <Properties>
+        <Property name="maximum" type="int" value="200"/>
+        <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="seekbarMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="eqz">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Equlizer"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eqzActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
